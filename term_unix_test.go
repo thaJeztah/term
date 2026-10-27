@@ -15,12 +15,11 @@ func newTTYForTest(t *testing.T) *os.File {
 	pty, tty, err := cpty.Open()
 	if err != nil {
 		t.Fatalf("error creating pty: %v", err)
-	} else {
-		t.Cleanup(func() {
-			_ = pty.Close()
-			_ = tty.Close()
-		})
 	}
+	t.Cleanup(func() {
+		_ = pty.Close()
+		_ = tty.Close()
+	})
 
 	return pty
 }
@@ -30,9 +29,8 @@ func newTempFile(t *testing.T) *os.File {
 	tmpFile, err := os.CreateTemp(t.TempDir(), "temp")
 	if err != nil {
 		t.Fatalf("error creating tempfile: %v", err)
-	} else {
-		t.Cleanup(func() { _ = tmpFile.Close() })
 	}
+	t.Cleanup(func() { _ = tmpFile.Close() })
 	return tmpFile
 }
 
